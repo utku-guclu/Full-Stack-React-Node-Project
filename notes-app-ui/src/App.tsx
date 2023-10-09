@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import NoteItem from "./components/Note";
 import { Note } from "./components/types/Note";
@@ -6,34 +6,12 @@ import { Note } from "./components/types/Note";
 import "./App.css";
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: 1,
-      title: "note title 1",
-      content: "content 1",
-    },
-    {
-      id: 2,
-      title: "note title 2",
-      content: "content 2",
-    },
-    {
-      id: 3,
-      title: "note title 3",
-      content: "content 3",
-    },
-    {
-      id: 4,
-      title: "note title 4",
-      content: "content 4",
-    },
-  ]);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-
   const [hoveredNoteId, setHoveredNoteId] = useState<number | null>(null);
 
   const [, drop] = useDrop({
@@ -72,6 +50,23 @@ function App() {
       }
     },
   });
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const url = "http://localhost:4000/api/notes"
+
+        const response = await fetch(url);
+
+        const notes: Note[] = await response.json()
+
+        setNotes(notes)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchNotes();
+  }, [])
 
   const handleNoteClick = (note: Note) => {
     setSelectedNote(note);
