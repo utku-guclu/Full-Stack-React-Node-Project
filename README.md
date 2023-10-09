@@ -43,11 +43,3 @@ Follow these steps to run the project locally:
 - Responsive UI design.
 - Backend API for managing notes.
 
-## Contributing
-
-Feel free to contribute to this project by opening issues or submitting pull requests. Your contributions are highly appreciated!
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
